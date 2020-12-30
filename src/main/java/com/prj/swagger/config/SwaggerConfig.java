@@ -1,8 +1,8 @@
 package com.prj.swagger.config;
 
+import java.util.ArrayList;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -23,8 +23,23 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
 
     @Bean
     public Docket apiV1() {
-        version = "V1";
-        title = "victolee API " + version;
+        version = "첫번째";
+        title = "Swagger 테스트 API " + version;
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
+                .groupName(version)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.prj.swagger"))
+                .paths(PathSelectors.ant("/**"))
+                .build()
+                .apiInfo(apiInfo(title, version));
+    }  
+
+    @Bean
+    public Docket apiV2() {
+        version = "두번째";
+        title = "Swagger 테스트 API " + version;
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
@@ -34,35 +49,19 @@ public class SwaggerConfig extends WebMvcConfigurationSupport{
                 .paths(PathSelectors.ant("/v1/api/**"))
                 .build()
                 .apiInfo(apiInfo(title, version));
-
-    }
-
-    @Bean
-    public Docket apiV2() {
-        version = "V2";
-        title = "victolee API " + version;
-
-        return new Docket(DocumentationType.SWAGGER_2)
-                .useDefaultResponseMessages(false)
-                .groupName(version)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.victolee.swaggerexam.api.v2"))
-                .paths(PathSelectors.ant("/v2/api/**"))
-                .build()
-                .apiInfo(apiInfo(title, version));
-
     }
 
     private ApiInfo apiInfo(String title, String version) {
         return new ApiInfo(
                 title,
-                "Swagger로 생성한 API Docs",
+                "Swagger로 생성한 API Docs",	
                 version,
-                "www.example.com",
-                new Contact("Contact Me", "www.example.com", "foo@example.com"),
+                "https://github.com/kyun9/spring-mvc-swagger",
+                new Contact("Contact Me", "https://github.com/kyun9/spring-mvc-swagger", "foo@example.com"),
                 "Licenses",
-                "www.example.com");
-    }
+                "www.example.com",
+                new ArrayList<>());
+    } 
 
 	/** Swagger UI 를 Resource Handler 에 등록 */
 	@Override
