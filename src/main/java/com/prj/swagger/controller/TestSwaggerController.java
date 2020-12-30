@@ -26,4 +26,16 @@ public class TestSwaggerController {
 		result.put("content", "V1 API 내용");
 		return result;
 	}
+
+	@ApiOperation(value = "test", notes = "API 테스트")
+	@ApiResponses({ @ApiResponse(code = 200, message = "OK !!"),
+			@ApiResponse(code = 500, message = "Internal Server Error !!"),
+			@ApiResponse(code = 404, message = "Not Found !!") })
+	@GetMapping(value = "/test")
+	public Map<String, String> test() {
+		Map<String, String> result = new HashMap<>();
+		result.put("test", "test");
+		result.put("content", "연동됬나??");
+		return result;
+	}
 }
